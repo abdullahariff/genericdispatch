@@ -4,13 +4,12 @@ def singlematcher(default_func):
   registry = {}
   
   @wraps(default_func)
-  def wrapper(arg):
+  def wrapper(matching_arg, *args, **kwargs):
     try:
-      matched_func = registry[arg]
+      matched_func = registry[matching_arg]
     except KeyError:
-      return default_func(arg)
-    else:
-      return matched_func(arg)
+      matched_func = default_func
+    return matched_func(matching_arg, *args, **kwargs)
 
   def register(match):
     def decorator(func):
