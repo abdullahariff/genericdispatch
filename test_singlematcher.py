@@ -1,4 +1,5 @@
 import inspect
+import pytest
 from .singlematcher import singlematcher
 
 def test_calling_decorated_function_returns_default():
@@ -49,4 +50,18 @@ def test_always_uses_default_matcher_docstring():
 
   assert inspect.getdoc(do_thing) == "This is my docstring."
 
+
+def test_registering_same_match_twice_fails():
+  @singlematcher
+  def do_thing(match):
+    return "default match"
+
+  @do_thing.register("matchme!")
+  def _(match):
+    return "I match!"
+
+  with pytest.raises(ValueError) as exc:
+    @do_thing.register("matchme!")
+    def _(match):
+      return "I also match"
   

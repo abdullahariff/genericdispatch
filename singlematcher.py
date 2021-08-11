@@ -14,6 +14,11 @@ def singlematcher(default_func):
 
   def register(match):
     def decorator(func):
+      if match in registry:
+        raise ValueError(
+          f"Cannot register {func!r} to matcher '{match}', "
+          f"already registered to {registry[match]!r}"
+        )
       registry[match] = func
       return func
     return decorator
