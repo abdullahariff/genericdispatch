@@ -1,6 +1,17 @@
 from functools import wraps
 
 def singlematcher(default_func):
+  """Single-dispatch matcher function decorator.
+  
+  Like functools.singledispatch, but matches identity instead of type.
+  Transforms a function into a generic function, which can have different
+  behaviours depending upon the identity of the first argument. The decorated
+  function acts as the default implementation, and additional
+  implementations can be registered using the .register() attribute of the
+  generic function.
+
+  Any hashable object may be registered as a match.
+  """
   registry = {}
   
   @wraps(default_func)
