@@ -65,3 +65,19 @@ def test_registering_same_match_twice_fails():
     def _(match):
       return "I also match"
   
+
+def test_register_multiple_matches_to_single_function():
+  @singlematcher
+  def do_thing(match):
+    return "default match"
+
+  @do_thing.register("matchme!")
+  @do_thing.register("match again")
+  def _(match):
+    return "I match!"
+
+  assert do_thing("matchme!") == "I match!"
+  assert do_thing("match again") == "I match!"
+
+def test_other_arguments_passed_through():
+  ...  # TODO
