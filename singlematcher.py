@@ -9,6 +9,8 @@ def singlematcher(default_func):
       matched_func = registry[arg]
     except KeyError:
       return default_func(arg)
+    else:
+      return matched_func(arg)
 
   def register(match):
     def decorator(func):
