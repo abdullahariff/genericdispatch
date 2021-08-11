@@ -91,3 +91,20 @@ def test_other_arguments_passed_through():
   assert do_thing("nomatch", "thing") == "default match thing"
   assert do_thing("matchme!", "other thing") == "I match other thing with myword!"
   assert do_thing("matchme!", "other thing", keyword="password") == "I match other thing with password!"
+
+
+def test_with_other_types_of_hashable_objects():
+  @singlematcher
+  def do_thing(_):
+    raise NotImplementedError(f"No match found for {_}")
+
+  @do_thing.register(56)
+  def _(_):
+    return "I'm an integer"
+
+  @do_thing.register(("fat", 123))
+  def _(_):
+    return "I'm a tuple"
+
+  assert do_thing(56) == "I'm an integer"
+  assert do_thing(("fat", 123)) == "I'm a tuple"
