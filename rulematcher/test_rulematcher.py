@@ -12,10 +12,11 @@ def test_rule_matcher_no_rule_registered():
 def test_rule_matcher_one_matching_strategy():
     add = singlerulematcher()
 
-    @add.register_strategy()
+    rule = lambda a, b: type(a) == type(b) == int
+
+    @add.register_strategy(rule)
     def add_integers(a, b):
-        if type(a) == type(b) == int:
-            return a + b
+        return a + b
 
     assert add(1, 2) == 3
 

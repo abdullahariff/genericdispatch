@@ -2,16 +2,18 @@ from functools import wraps
 
 
 def singlerulematcher():
-    register = {"strategy": None}
+    registry = {"strategy": None, "rule": None}
 
     def func(*args, **kwargs):
-        if register["strategy"]:
-            return register["strategy"](*args, **kwargs)
+        if registry["strategy"]:
+            return registry["strategy"](*args, **kwargs)
         raise NotImplementedError
 
-    def register_strategy():
+    def register_strategy(rule):
+        registry["rule"] = rule
+
         def decorator(strategy_func):
-            register["strategy"] = strategy_func
+            registry["strategy"] = strategy_func
 
         return decorator
 
