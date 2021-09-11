@@ -1,12 +1,12 @@
 from functools import wraps
 
 
-def singlematcher(default_func):
-    """Single-dispatch matcher function decorator.
+def stringmatcher(default_func):
+    """Single-dispatch decorator based on strings (or any hashable object).
 
-    Like functools.singledispatch, but matches identity instead of type.
+    Like functools.singledispatch, but matches based on value instead of type.
     Transforms a function into a generic function, which can have different
-    behaviours depending upon the identity of the first argument. The decorated
+    behaviours depending upon the value of the first argument. The decorated
     function acts as the default implementation, and additional
     implementations can be registered using the .register() attribute of the
     generic function.

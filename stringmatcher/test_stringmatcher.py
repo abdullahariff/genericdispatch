@@ -1,10 +1,10 @@
 import inspect
 import pytest
-from .singlematcher import singlematcher
+from .stringmatcher import stringmatcher
 
 
 def test_calling_decorated_function_returns_default():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         return f"{match} thing"
 
@@ -12,7 +12,7 @@ def test_calling_decorated_function_returns_default():
 
 
 def test_registering_a_matcher_but_no_match_found():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         return "default match"
 
@@ -25,7 +25,7 @@ def test_registering_a_matcher_but_no_match_found():
 
 
 def test_matching_a_registered_matcher():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         return "default match"
 
@@ -38,7 +38,7 @@ def test_matching_a_registered_matcher():
 
 
 def test_always_uses_default_matcher_docstring():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         """
     This is my docstring.
@@ -54,7 +54,7 @@ def test_always_uses_default_matcher_docstring():
 
 
 def test_registering_same_match_twice_fails():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         return "default match"
 
@@ -70,7 +70,7 @@ def test_registering_same_match_twice_fails():
 
 
 def test_register_multiple_matches_to_single_function():
-    @singlematcher
+    @stringmatcher
     def do_thing(match):
         return "default match"
 
@@ -84,7 +84,7 @@ def test_register_multiple_matches_to_single_function():
 
 
 def test_other_arguments_passed_through():
-    @singlematcher
+    @stringmatcher
     def do_thing(_, something):
         return f"default match {something}"
 
@@ -101,7 +101,7 @@ def test_other_arguments_passed_through():
 
 
 def test_with_other_types_of_hashable_objects():
-    @singlematcher
+    @stringmatcher
     def do_thing(_):
         raise NotImplementedError(f"No match found for {_}")
 
