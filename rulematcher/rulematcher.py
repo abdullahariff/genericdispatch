@@ -1,13 +1,19 @@
 from functools import wraps
 
 
+class NoMatchingRuleFound(Exception):
+    ...
+
+
 def singlerulematcher():
     registry = {"strategy": None, "rule": None}
 
-    def func(*args, **kwargs):
-        if registry["strategy"]:
-            return registry["strategy"](*args, **kwargs)
-        raise NotImplementedError
+    def func(a, b):
+        rule = registry["rule"]
+        strategy = registry["strategy"]
+        if registry and rule and rule(a, b):
+            return registry["strategy"](a, b)
+        raise NoMatchingRuleFound
 
     def register_strategy(rule):
         registry["rule"] = rule
